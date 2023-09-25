@@ -60,6 +60,7 @@ public class Lab
     }
 
 
+
     public static (string, int) GetNumber(StringBuilder num)
     {
         StringBuilder sb = num;
