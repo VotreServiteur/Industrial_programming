@@ -3,7 +3,7 @@ using static System.Console;
 public class Lab
 {
     static string path = @"C:\Users\makst\Desktop\C#\Labs\Lab3\";
-    public static void Main(strinGetg[] args)
+    public static void Main(string[] args)
     {
         using (
             Stream strIn = new FileStream(@".\in.txt", FileMode.OpenOrCreate),
