@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.RegularExpressions;
 using static System.Console;
 public class Lab
 {
@@ -29,11 +30,21 @@ public class Lab
                         nm.Append(Convert.ToChar(byt));
                         byt = In.ReadByte();
                     }
-                    //WriteLine(nm.ToString());
-                    number = GetNumber(nm);
-                    //WriteLine(NextNumber(number));
-                    strOut.WriteLine(NextNumber(number));
-                    k++;
+                        string n1 = nm.ToString().Split()[0];
+                        string n2 = nm.ToString().Split()[1];
+                        number = GetNumber(nm);
+
+                        if (new Regex(@"[A-Z]{3}").IsMatch(n1) && (new Regex(@"\d{4}")).IsMatch(n2) && n1.Equals(n1.ToUpper()))
+                        //WriteLine(nm.ToString());
+                        {
+                            //WriteLine(NextNumber(number));
+                            strOut.WriteLine(NextNumber(number));
+                            
+                        }
+                        else {
+                            strOut.WriteLine(OutNumber(number)+ " ---> invalid ");
+                        }
+                        k++;
                     }
                     byt = In.ReadByte();
                 }
@@ -72,6 +83,7 @@ public class Lab
     public static string NextNumber((string, int) number)
     {
         StringBuilder message = new(OutNumber(number));
+        
         if (number == ("ZZZ", 9999)) return OutNumber(number) + " ---> Final number" ;
         if (number.Item2 == 9999)
         {
