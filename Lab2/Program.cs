@@ -13,65 +13,67 @@ internal class Program
         int? mouseCathedPosition = null;
         int catDistance = 0, mouseDistance = 0;
         //
-        using (StreamReader sr = new("ChaseData.txt")) using (StreamWriter sw = new("PursuitLog.txt"))
+         using (StreamWriter sw = new("PursuitLog.txt"))
         {
             try
             {
-
-                int field = Convert.ToInt32(sr.ReadLine().Trim());
-                string curString;
-
-                sw.WriteLine($"Cat and Mouse\nCat Mouse  Distance\n-------------------");
-
-                while (gameIsContinious)
+                using (StreamReader sr = new("ChaseData.txt"))
                 {
-                    curString = sr.ReadLine();
-                    if (curString == null) { break; }
-                    (string, int) player = (Regex.Split(curString, @"\s+")[0], Regex.Split(curString, @"\s+").Length > 1 ? Convert.ToInt32(Regex.Split(curString, @"\s+")[1]) : 0);
+                    int field = Convert.ToInt32(sr.ReadLine().Trim());
+                    string curString;
 
-                    switch (player.Item1)
+                    sw.WriteLine($"Cat and Mouse\n\nCat Mouse  Distance\n-------------------");
+
+                    while (gameIsContinious)
                     {
-                        case "P":
-                            OutCurPositions(sw, catCurrentPosition, mouseCurrentPosition);
+                        curString = sr.ReadLine();
+                        if (curString == null) { break; }
+                        (string, int) player = (Regex.Split(curString, @"\s+")[0], Regex.Split(curString, @"\s+").Length > 1 ? Convert.ToInt32(Regex.Split(curString, @"\s+")[1]) : 0);
 
-                            break;
-                        case "C":
-                            if (catCurrentPosition != null)
-                            {
-                                catDistance += Math.Abs(player.Item2);
-                                catCurrentPosition = player.Item2 < 0 ? (player.Item2 + catCurrentPosition + field) % field : (player.Item2 + catCurrentPosition) % field + (player.Item2 <= field ? 0 : 1);
-                            }
-                            else catCurrentPosition = player.Item2;
-                           
-                            WriteLine(catDistance);
-                            break;
-                        case "M":
-                            if (mouseCurrentPosition != null)
-                            {
-                                mouseDistance += Math.Abs(player.Item2);
-                                mouseCurrentPosition = player.Item2 < 0 ? (player.Item2 + mouseCurrentPosition + field) % field : (player.Item2 + mouseCurrentPosition) % field + (player.Item2 <= field ? 0 : 1);
-                            }
-                            else mouseCurrentPosition = player.Item2;
-                            break;
+                        switch (player.Item1)
+                        {
+                            case "P":
+                                OutCurPositions(sw, catCurrentPosition, mouseCurrentPosition);
 
-                        default:
-                            continue;
+                                break;
+                            case "C":
+                                if (catCurrentPosition != null)
+                                {
+                                    catDistance += Math.Abs(player.Item2);
+                                    catCurrentPosition = player.Item2 < 0 ? (player.Item2 + catCurrentPosition + field) % field : (player.Item2 + catCurrentPosition) % field + (player.Item2 <= field ? 0 : 1);
+                                }
+                                else catCurrentPosition = player.Item2;
+
+                                WriteLine(catDistance);
+                                break;
+                            case "M":
+                                if (mouseCurrentPosition != null)
+                                {
+                                    mouseDistance += Math.Abs(player.Item2);
+                                    mouseCurrentPosition = player.Item2 < 0 ? (player.Item2 + mouseCurrentPosition + field) % field : (player.Item2 + mouseCurrentPosition) % field + (player.Item2 <= field ? 0 : 1);
+                                }
+                                else mouseCurrentPosition = player.Item2;
+                                break;
+
+                            default:
+                                continue;
+                        }
+
+                        if (mouseCurrentPosition == catCurrentPosition &&  mouseCurrentPosition != null) { gameIsContinious = false; mouseCathed = true; mouseCathedPosition = catCurrentPosition; }
+
                     }
-                    
-                    if (mouseCurrentPosition == catCurrentPosition) { gameIsContinious = false; mouseCathed = true; mouseCathedPosition = mouseCurrentPosition; } 
-                
-                }
 
+                }
             }
-            
             catch { }
-            
-            finally {
-                
+
+            finally
+            {
+
                 sw.WriteLine("-------------------" + '\n');
                 sw.WriteLine("Distance traveled:   Mouse     Cat");
                 sw.WriteLine("                    " + '\t' + mouseDistance + "\t\t" + catDistance);
-                
+                sw.WriteLine();
                 if (mouseCathed)
                 {
                     sw.Write("Mouse cought at:" + mouseCathedPosition);
