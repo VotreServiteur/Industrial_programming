@@ -1,39 +1,25 @@
 ﻿using System.Text;
+using System.Text.RegularExpressions;
 using static System.Console;
 internal class Program
 {
     private static void Main(string[] args)
     {
-        ex4();
+        ex2();
     }
     static void ex1()
-    {
+    { 
+        string sb = (Console.ReadLine());
 
-        char[] str = Console.ReadLine().
-                             ToLower().
-                             ToCharArray();
-        var k = 0;
-        
-        foreach (char c in str)
-            if (c >= 'a' && c <= 'z') k++;
-        Console.WriteLine(k);
-    
+        Write(Regex.Replace(sb, @"[^A-Z,a-z]", "").Length);
+        StringBuilder sb = new(Regex.Replace(sb, @"[^A-Z,a-z]", ""));
+        Write(sb.Insert(sb.Length - 1, "ok"));
     }
     static void ex2()
     {
-        string x = ReadLine().ToString();
+        string x = ReadLine();
         
-        string[] text = ReadLine().Split();
-        
-        StringBuilder sb = new StringBuilder("");
-        foreach (string s in text)
-        {
-            if (!s.Trim(new char[]{',','!','?','.' }).EndsWith(x))
-            {
-                sb.Append(" "+s);
-            }
-        }
-        Write(sb.ToString());
+        Write(Regex.Replace(Console.ReadLine(), @$"\s\w*{x}\W", ""));
     }
     static void ex3()
     {
