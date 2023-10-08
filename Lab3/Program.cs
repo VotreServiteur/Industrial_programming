@@ -9,10 +9,10 @@ internal class Program
     }
     static void ex1()
     { 
-        string sb = (Console.ReadLine());
+        string s = (Console.ReadLine());
 
-        Write(Regex.Replace(sb, @"[^A-Z,a-z]", "").Length);
-        StringBuilder sb = new(Regex.Replace(sb, @"[^A-Z,a-z]", ""));
+        Write(Regex.Replace(s, @"[^A-Z,a-z]", "").Length);
+        StringBuilder sb = new(Regex.Replace(s, @"[^A-Z,a-z]", ""));
         Write(sb.Insert(sb.Length - 1, "ok"));
     }
     static void ex2()
