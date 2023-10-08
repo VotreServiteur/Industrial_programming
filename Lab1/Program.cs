@@ -56,18 +56,7 @@ public class Lab
     }
     public static string OutNumber((string, int) number)
     {
-        StringBuilder sb = new("");
-        sb.Append(number.Item1);
-        StringBuilder nm = new(Convert.ToString(number.Item2));
-        if (number.Item2 < 1000)
-        {
-            while (nm.Length < 4)
-            {
-                nm = new StringBuilder("0").Append(nm);
-            }
-        }
-        sb.Append(" " + nm);
-        return sb.ToString();
+        return number.Item1 + " " + number.Item2.ToString("D4");
     }
 
 
