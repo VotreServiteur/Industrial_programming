@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using static System.Console;
 public class Lab
 {
-    static string path = @"C:\Users\makst\Desktop\C#\Labs\Lab3\";
+    static string path = @"C:\Users\makst\Desktop\C#\Labs\Lab4\";
     public static void Main(string[] args)
     {
         using (
