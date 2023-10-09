@@ -537,8 +537,62 @@ internal class Program
         }
     }
 
+    public static void ex9()
+    {
+        using (var sw = new StreamWriter(new FileStream("input.txt", FileMode.Create)))
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                for (int j = 0; j < 100; j++)
+                {
+                    if(i == j)sw.Write(1 + " "); 
+                    else sw.Write(0 + " ");
+                }
+                sw.WriteLine();
+            }
+        }
+        Write("Input column: ");
+        int m = Convert.ToInt32(ReadLine());
+        bool isE = true, isZ = true, isU = true;
+        int last = 0;
+        using (var sr = new StreamReader(new FileStream("input.txt", FileMode.Open)))
+        using (var sw1 = new StreamWriter(new FileStream("out1.txt",FileMode.Create)))
+        using (var sw2 = new StreamWriter(new FileStream("out2.txt",FileMode.Create)))
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < 100; i++)
+            {
+                sb = new StringBuilder();
+                char[] st = string.Concat(sr.ReadLine().Split()).ToCharArray();
+                isZ = true;
+                if (last > st[m]) isU = false;
+                last = st[m];
+                for (int j = 0; j < 100; j++)
+                {
+                    if (isE)
+                        if (j == i) isE = st[j] == '1';
+                        else isE = st[j] == '0';
 
-public static string DeleteOdd(string st)
+                    if (st[j] != 0) isZ = false;
+
+                }
+                sw1.WriteLine(st[m]);
+                if (isZ) WriteLine("Zero line was found!");
+                else
+                {
+                    foreach (char ch in st)
+                    {
+                        sb.Append(ch + " ");
+                    }
+                    sw2.WriteLine(i + " " + sb );
+                }
+               
+            }
+        }
+        WriteLine($"Matr is {(isE?"":"not ")}unit\nColumn {m} is {(isU?"":"not ")}sorted");
+        }
+
+    private static string DeleteOdd(string st)
     {
         StringBuilder sb = new StringBuilder();
         char[] str = st.ToCharArray();
@@ -547,7 +601,6 @@ public static string DeleteOdd(string st)
         {
             sb.Append(str[i]);
         }
-
         return sb.ToString();
     }
 }
