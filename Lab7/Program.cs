@@ -43,11 +43,12 @@ internal class Program
         
         string shortSt = st.Substring(st.Length - shortKeys - 1);
         st = st.Substring(0, st.Length - shortKeys - 1);
-        //WriteLine(st.Length);
-        //WriteLine(shortSt);
+        
         StringBuilder sb1 = new StringBuilder(), sb;
+        
         int l = st.Length / 20;
         char[] cur;
+        
         for (int i = 0; i < l; i++)
         {
             sb = new StringBuilder();
@@ -73,17 +74,28 @@ internal class Program
         sb1.Append(sb);
         
         Write(sb1.ToString());
+        sb = new StringBuilder();
         using (StreamWriter sw = new StreamWriter(new FileStream("output.txt",FileMode.Create)))
         {
+            sw.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            sw.WriteLine($"Decrypting {x} characters");
+            sw.Write("Using:\t");
+            for (int i = 0; i < 20; i++)
+            {
+                sw.Write(i + "\t");
+                int j = 0;
+                while (encrypt[j] != i)
+                    j++;
+                sb.Append(j + "\t");
+            }   
+            sw.WriteLine("\n\t\t" + sb);
+            sw.WriteLine();
             sw.WriteLine(sb1.ToString());
+            sw.WriteLine();
+            sw.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         }
     }
-//0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
-//19 14 7  3 11  9 12 13 15  1 16 17 10 18  2  6  4  5  8  0
-//l a tl
-//    mH.- e
-//l.H emt
-//  l -la
+
 
     public static void CreateDict(int cap,Dictionary<int,int> enc,ref Dictionary<int,int> encSh)
     {
@@ -92,18 +104,14 @@ internal class Program
         {
             curK = i;
             curV = enc[curK];
-
-            
+ 
             if (curV > cap)
             {
                 while (curV > cap)
                 {
-                   // WriteLine(curV);
                     curV = enc[curV];
                 }
-                
             }
-            //WriteLine(curK+" "+curV);
             encSh.Add(curK,curV);
         }
     }

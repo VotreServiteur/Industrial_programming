@@ -1,12 +1,13 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 using static System.Console;
+using StreamReader = System.IO.StreamReader;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        ex4();
+        ex2();
     }
 
     /*
@@ -30,12 +31,8 @@ internal class Program
 
         Write("Введите число:\n\t");
         double max = Convert.ToDouble(ReadLine());
-        using (
-            BinaryWriter bw = new BinaryWriter(new FileStream("output.dat", FileMode.Create))
-        )
-        using (
-            BinaryReader br = new BinaryReader(new FileStream("input.dat", FileMode.Open))
-        )
+        using (BinaryWriter bw = new BinaryWriter(new FileStream("output.dat", FileMode.Create)))
+        using (BinaryReader br = new BinaryReader(new FileStream("input.dat", FileMode.Open)))
         {
             br.Read();
             while (br.PeekChar() != -1)
@@ -50,7 +47,8 @@ internal class Program
         }
     }
 
-    private static double ReadDouble(BinaryReader br)
+
+private static double ReadDouble(BinaryReader br)
     {
         StringBuilder sb = new StringBuilder("");
         while (br.PeekChar() != ' ' && br.PeekChar() != -1)
@@ -72,11 +70,9 @@ internal class Program
 чисел*/
     public static void ex2()
     {
-        using (
-            BinaryWriter bw = new BinaryWriter(new FileStream("f1.dat", FileMode.Create))
-        )
+        using (BinaryWriter bw = new BinaryWriter(new FileStream("f1.dat", FileMode.Create)))
         {
-            bw.Write("12 -30 35 -399 0"); // Пусть ноль подходит под условие знакопеременности
+                   bw.Write("12 -30 35 -399 0"); // Пусть ноль подходит под условие знакопеременности
         }
 
         using (
@@ -195,49 +191,45 @@ internal class Program
         int cur;
         try
         {
-            using (BinaryReader br = new BinaryReader(File.OpenRead("input.dat")))
+            using BinaryReader br = new BinaryReader(File.OpenRead("input.dat"));
+            using BinaryWriter bw = new BinaryWriter(File.OpenWrite("output.dat"));
+            br.Read();
+            cur = ReadInt(br);
+            while (br.PeekChar() != -1)
             {
-                using (BinaryWriter bw = new BinaryWriter(File.OpenWrite("output.dat")))
+                sum = 0;
+
+                switch (Math.Sign(cur))
                 {
-                    br.Read();
-                    cur = ReadInt(br);
-                    while (br.PeekChar() != -1)
-                    {
-                        sum = 0;
-
-                        switch (Math.Sign(cur))
+                    case 0:
+                        while (cur == 0 && br.PeekChar() != -1)
                         {
-                            case 0:
-                                while (cur == 0 && br.PeekChar() != -1)
-                                {
-                                    cur = ReadInt(br);
-                                }
-
-                                break;
-
-                            case 1:
-                                while (cur > 0 && br.PeekChar() != -1)
-                                {
-                                    sum += cur;
-                                    cur = ReadInt(br);
-                                }
-
-                                break;
-
-                            case -1:
-                                while (cur < 0 && br.PeekChar() != -1)
-                                {
-                                    sum += cur;
-                                    cur = ReadInt(br);
-                                }
-
-                                break;
+                            cur = ReadInt(br);
                         }
 
-                        bw.Write(sum + " ");
+                        break;
 
-                    }
+                    case 1:
+                        while (cur > 0 && br.PeekChar() != -1)
+                        {
+                            sum += cur;
+                            cur = ReadInt(br);
+                        }
+
+                        break;
+
+                    case -1:
+                        while (cur < 0 && br.PeekChar() != -1)
+                        {
+                            sum += cur;
+                            cur = ReadInt(br);
+                        }
+
+                        break;
                 }
+
+                bw.Write(sum + " ");
+
             }
         }
         catch (Exception ign)
@@ -545,19 +537,21 @@ internal class Program
             {
                 for (int j = 0; j < 100; j++)
                 {
-                    if(i == j)sw.Write(1 + " "); 
+                    if (i == j) sw.Write(1 + " ");
                     else sw.Write(0 + " ");
                 }
+
                 sw.WriteLine();
             }
         }
+
         Write("Input column: ");
         int m = Convert.ToInt32(ReadLine());
         bool isE = true, isZ = true, isU = true;
         int last = 0;
         using (var sr = new StreamReader(new FileStream("input.txt", FileMode.Open)))
-        using (var sw1 = new StreamWriter(new FileStream("out1.txt",FileMode.Create)))
-        using (var sw2 = new StreamWriter(new FileStream("out2.txt",FileMode.Create)))
+        using (var sw1 = new StreamWriter(new FileStream("out1.txt", FileMode.Create)))
+        using (var sw2 = new StreamWriter(new FileStream("out2.txt", FileMode.Create)))
         {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < 100; i++)
@@ -576,6 +570,7 @@ internal class Program
                     if (st[j] != 0) isZ = false;
 
                 }
+
                 sw1.WriteLine(st[m]);
                 if (isZ) WriteLine("Zero line was found!");
                 else
@@ -584,24 +579,41 @@ internal class Program
                     {
                         sb.Append(ch + " ");
                     }
-                    sw2.WriteLine(i + " " + sb );
+
+                    sw2.WriteLine(i + " " + sb);
                 }
-               
+
             }
         }
-        WriteLine($"Matr is {(isE?"":"not ")}unit\nColumn {m} is {(isU?"":"not ")}sorted");
-        }
+
+        WriteLine($"Matr is {(isE ? "" : "not ")}unit\nColumn {m} is {(isU ? "" : "not ")}sorted");
+    }
 
     private static string DeleteOdd(string st)
     {
         StringBuilder sb = new StringBuilder();
         char[] str = st.ToCharArray();
-        
+
         for (int i = 0; i < str.Length; i += 2)
         {
             sb.Append(str[i]);
         }
+
         return sb.ToString();
     }
+
+    public static void ex()
+    {
+        string st = "asdfasdf";
+
+        using(StreamWriter stream = new StreamWriter(new FileStream("f.txt", FileMode.Create)))
+        using (StreamReader sr = new StreamReader(new FileStream("f.txt", FileMode.Open)))
+        {
+            stream.WriteLine(st);
+            
+            WriteLine(sr.ReadLine());
+        }
+    }
 }
+
 
