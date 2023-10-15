@@ -54,7 +54,7 @@ namespace GeneticsProject
                 {
                     //001   search  SIIK
                     sb.Append("\n" + $"{counter.ToString("D3")}   {"search"}   {Decoding(command[1])}");
-                    int index = Search(command[1]);
+                    int index = Search(Decoding(command[1]));
                     if (index != -1)
                         sb.Append("\n" + $"{data[index].organism}    {data[index].name}");
                     else
@@ -70,7 +70,7 @@ namespace GeneticsProject
                         sb.Append("\n" + $"MISSING {(protein2 == null? command[2]:command[1])}");
                     else
                     {
-                        int dif = Diff(protein1, protein2);
+                        int dif = Diff(Decoding(protein1), Decoding(protein2));
                         sb.Append("\n" + $"amino-acids difference:\n{dif}");
                     }
                     sb.Append("\n" + "================================================");
@@ -85,7 +85,7 @@ namespace GeneticsProject
                     else
                     {
                         sb.Append("\n" + "amino-acids occurs:");
-                        Mode(protein);
+                        Mode(Decoding(protein));
                     }
                     sb.Append("\n" + "================================================");
                 }
@@ -142,7 +142,7 @@ namespace GeneticsProject
             string decoded = Decoding(amino_acid);
             for (int i = 0; i < data.Count; i++)
             {
-                if (data[i].formula.Contains(decoded)) return i;
+                if (Decoding(data[i].formula).Contains(decoded)) return i;
             }
             return -1;              
         }
