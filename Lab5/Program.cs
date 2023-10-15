@@ -602,15 +602,6 @@ private static double ReadDouble(BinaryReader br)
         return sb.ToString();
     }
 
-    public static async void ex()
-    {
-        string st = "asdfasdf";
 
-        using(FileStream fs = new FileStream("f.txt",FileMode.Open))
-        {
-            {
-                //stream.WriteLineAsync(st);
-            }
-        }
-    }
+
 }

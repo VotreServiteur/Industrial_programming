@@ -1,12 +1,11 @@
-﻿
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 using static System.Console;
 
 internal class Program
 {
     static int x;
-    static StringBuilder sb1;
+    static StringBuilder sb1 = new StringBuilder();
     static string[] enc;
     static string st;
 
@@ -75,14 +74,14 @@ internal class Program
                 sb.Append(cur[encrypt[j]]);
             }
 
-            sb1.Append(sb);
+            sb1.Append(sb.ToString());
         }
 
         sb = new StringBuilder();
         cur = shortSt.ToCharArray();
-        CreateDict(shortKeys, encrypt, ref encryptSh);
+        CreateDict(shortKeys + 1, encrypt, ref encryptSh);
 
-        for (int j = 0; j < shortKeys; j++)
+        for (int j = 0; j < shortKeys + 1; j++)
         {
             sb.Append(cur[encryptSh[j]]);
         }
@@ -131,9 +130,9 @@ internal class Program
             curK = i;
             curV = enc[curK];
  
-            if (curV > cap)
+            if (curV >= cap)
             {
-                while (curV > cap)
+                while (curV >= cap)
                 {
                     curV = enc[curV];
                 }
