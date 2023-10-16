@@ -7,7 +7,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        ex2();
+        ex1();
     }
 
     /*

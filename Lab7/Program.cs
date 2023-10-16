@@ -9,6 +9,8 @@ internal class Program
     static string[] enc;
     static string st;
 
+    const string inpath = "input.txt";
+    const string outpath = "output.txt";
 
     public static void Main(string[] args)
     {
@@ -18,7 +20,7 @@ internal class Program
 
     static void ReadFile()
     {
-        using (StreamReader sr = new StreamReader(new FileStream("input.txt", FileMode.Open)))
+        using (StreamReader sr = new StreamReader(new FileStream(inpath, FileMode.Open)))
         {
             sr.ReadLine();
             enc = Regex.Split(sr.ReadLine().TrimStart(' '), "\\s+");
@@ -94,7 +96,7 @@ internal class Program
     public static void OutFile(Dictionary<int,int> encrypt)
     {
 
-        using (StreamWriter sw = new StreamWriter(new FileStream("output.txt", FileMode.Create)))
+        using (StreamWriter sw = new StreamWriter(new FileStream(outpath, FileMode.Create)))
         {
             sw.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             sw.WriteLine($"Decrypting {x} characters");
