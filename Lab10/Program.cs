@@ -11,7 +11,7 @@ internal class Program
 
     public static void ex1()
     {
-        int i = 3;
+        int i = 0;
         switch (i)
         {
             case 0:
@@ -279,29 +279,40 @@ public static string[] ReadEmp(StreamReader sr)
             string? cur;
             int n = 0;
             string[] curLine;
+            int N = Convert.ToInt32(ReadLine());
             while (!sr.EndOfStream)
             {
                 n++;
-                cur = sr.ReadLine();
-                if (cur[cur.Length - 1] == '\n')
+                for (int i = 0; i < N; i++)
                 {
-                    cur = cur.ToLower().Replace("\r\n", "");
-                }
-
-                curLine = Regex.Split(cur.Trim(new char[] { '?', '.', ',', '!' }).ToLower(), @"[!,.?]*\s");
-
-                foreach (var st in curLine)
-                {
-                    if (!dict.ContainsKey(st))
+                    if (sr.EndOfStream)
                     {
-                        dict.Add(st, (1, new SortedSet<int>() { n }));
+                        break;
                     }
-                    else
+                    cur = sr.ReadLine();
+                    if (cur.Length > 2)
                     {
-                        (int, SortedSet<int>) tp = dict[st];
-                        tp.Item1++;
-                        tp.Item2.Add(n);
-                        dict[st] = tp;
+                        if (cur[cur.Length - 1] == '\n')
+                        {
+                            cur = cur.ToLower().Replace("\r\n", "");
+                        }
+
+                        curLine = Regex.Split(cur.Trim(new char[] { '?', '.', ',', '!' }).ToLower(), @"[!,.?]*\s");
+
+                        foreach (var st in curLine)
+                        {
+                            if (!dict.ContainsKey(st))
+                            {
+                                dict.Add(st, (1, new SortedSet<int>() { n }));
+                            }
+                            else
+                            {
+                                (int, SortedSet<int>) tp = dict[st];
+                                tp.Item1++;
+                                tp.Item2.Add(n);
+                                dict[st] = tp;
+                            }
+                        }
                     }
                 }
             }

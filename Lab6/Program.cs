@@ -40,7 +40,9 @@ internal class Program
                                 if (catCurrentPosition != null)
                                 {
                                     catDistance += Math.Abs(player.Item2);
-                                    catCurrentPosition = player.Item2 < 0 ? (player.Item2 + catCurrentPosition + field) % field : (player.Item2 + catCurrentPosition) % field + (player.Item2 <= field ? 0 : 1);
+                                    catCurrentPosition = player.Item2 < 0 ? (player.Item2 + catCurrentPosition + (field *( Math.Abs(player.Item2) / field + 1))) % field : (player.Item2 + catCurrentPosition) % field + (player.Item2 <= field ? 0 : 1);
+                                    
+                                    //catCurrentPosition = Math.Abs((int)catCurrentPosition);
                                 }
                                 else catCurrentPosition = player.Item2;
 
@@ -50,7 +52,7 @@ internal class Program
                                 if (mouseCurrentPosition != null)
                                 {
                                     mouseDistance += Math.Abs(player.Item2);
-                                    mouseCurrentPosition = player.Item2 < 0 ? (player.Item2 + mouseCurrentPosition + field) % field : (player.Item2 + mouseCurrentPosition) % field + (player.Item2 <= field ? 0 : 1);
+                                    mouseCurrentPosition = player.Item2 < 0 ? (player.Item2 + mouseCurrentPosition + (field *( Math.Abs(player.Item2) / field + 1))) % field : (player.Item2 + mouseCurrentPosition) % field + (player.Item2 <= field ? 0 : 1);
                                 }
                                 else mouseCurrentPosition = player.Item2;
                                 break;
@@ -58,7 +60,7 @@ internal class Program
                             default:
                                 continue;
                         }
-
+                        
                         if (mouseCurrentPosition == catCurrentPosition &&  mouseCurrentPosition != null) { gameIsContinious = false; mouseCathed = true; mouseCathedPosition = catCurrentPosition; }
 
                     }
