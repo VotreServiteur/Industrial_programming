@@ -42,7 +42,6 @@ internal class Program
                                     catDistance += Math.Abs(player.Item2);
                                     catCurrentPosition = player.Item2 < 0 ? (player.Item2 + catCurrentPosition + (field *( Math.Abs(player.Item2) / field + 1))) % field : (player.Item2 + catCurrentPosition) % field + (player.Item2 <= field ? 0 : 1);
                                     
-                                    //catCurrentPosition = Math.Abs((int)catCurrentPosition);
                                 }
                                 else catCurrentPosition = player.Item2;
 
