@@ -9,9 +9,39 @@ internal class Program
         ex3();
     }
 
+    static int Evaluate(string formula)
+    {
+        Stack<string> stack = new Stack<string>(Regex.Replace(formula, @"[(,)][(),]*\s*"," ").Trim().Split().Reverse());
+
+        return Evaluate(stack);
+    }
+
+    static int Evaluate(Stack<string> stack)
+    {
+        string symbol = stack.Pop();
+
+
+        if (symbol == "M" || symbol == "m")
+        {
+            int operand1 = Evaluate(stack);
+            int operand2 = Evaluate(stack);
+
+            if (symbol == "M")
+                return Math.Max(operand1, operand2);
+
+            return Math.Min(operand1, operand2);
+        }
+
+        return Convert.ToInt32(symbol);
+    }
+    static bool IsOperator(string symbol)
+    {
+        return symbol == "+" || symbol == "-" || symbol == "*" || symbol == "/";
+    }
+
     public static void ex1()
     {
-        int i = 0;
+        int i = 1;
         switch (i)
         {
             case 0:
@@ -47,7 +77,55 @@ internal class Program
                     WriteLine("Reverse");
                 else
                     WriteLine("Not");
+                
+                break;
+            }
 
+
+            case 1:
+            {
+                string expression = "* + 3 - 4 3 2";
+                Stack<int> stack = new Stack<int>();
+
+                string[] symbols = expression.Split(' ');
+
+                for (int j = symbols.Length - 1; i >= 0; i--)
+                {
+                    string symbol = symbols[j];
+
+                    if (IsOperator(symbol))
+                    {
+                        int op1 = stack.Pop();
+                        int op2 = stack.Pop();
+
+                        switch (symbol)
+                        {
+                            case "+":
+                                stack.Push(op1 + op2);
+                                break;
+                            case "-":
+                                stack.Push(op1 - op2);
+                                break;
+                            case "*":
+                                stack.Push(op1 * op2);
+                                break;
+                            case "/":
+                                stack.Push(op1 / op2);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        stack.Push(int.Parse(symbol));
+                    }
+
+                }
+                WriteLine(stack.Pop());
+                break;
+            }
+            case 2:
+            {
+                WriteLine(Evaluate(File.ReadAllText("f.txt")));
                 break;
             }
             case 3:
@@ -221,13 +299,13 @@ internal class Program
                 Write("Low 30\n");
                 while (ter1.TryPeek(out c))
                 {
-                    Write("\t"+Employee(ter1.Dequeue()));
+                    Write("\t" + Employee(ter1.Dequeue()));
                 }
 
                 Write("\nUp 30\n");
                 while (ter2.TryPeek(out c))
                 {
-                    Write("\t"+Employee(ter2.Dequeue()));
+                    Write("\t" + Employee(ter2.Dequeue()));
                 }
 
                 break;
@@ -243,23 +321,25 @@ internal class Program
         {
             sb.Append(s + " ");
         }
+
         return sb.Append("\n").ToString();
     }
 
-public static string[] ReadEmp(StreamReader sr)
+    public static string[] ReadEmp(StreamReader sr)
     {
         string[] emp = new string[6];
-        
+
         for (int i = 0; i < 6; i++)
             emp[i] = ReadVal(sr);
-               //if(!sr.EndOfStream)sr.Read();
+        //if(!sr.EndOfStream)sr.Read();
         return emp;
     }
+
     public static string ReadVal(StreamReader sr)
     {
         StringBuilder sb = new StringBuilder();
         char cur;
-        while ((cur = (char)sr.Read()) > ' ' && !sr.EndOfStream )
+        while ((cur = (char)sr.Read()) > ' ' && !sr.EndOfStream)
         {
             sb.Append(cur);
         }
@@ -268,6 +348,7 @@ public static string[] ReadEmp(StreamReader sr)
         {
             sr.Read();
         }
+
         return sb.Append(cur).ToString();
     }
 
@@ -278,7 +359,7 @@ public static string[] ReadEmp(StreamReader sr)
         {
             string? cur;
             int n = 0;
-            string[] curLine;
+            List<string> curLine;
             int N = Convert.ToInt32(ReadLine());
             while (!sr.EndOfStream)
             {
@@ -289,6 +370,7 @@ public static string[] ReadEmp(StreamReader sr)
                     {
                         break;
                     }
+
                     cur = sr.ReadLine();
                     if (cur.Length > 2)
                     {
@@ -297,7 +379,7 @@ public static string[] ReadEmp(StreamReader sr)
                             cur = cur.ToLower().Replace("\r\n", "");
                         }
 
-                        curLine = Regex.Split(cur.Trim(new char[] { '?', '.', ',', '!' }).ToLower(), @"[!,.?]*\s");
+                        curLine = new List<string>(Regex.Split(cur.Trim(new char[] { '?', '.', ',', '!' }).ToLower(), @"[!,.?]*\s"));
 
                         foreach (var st in curLine)
                         {
